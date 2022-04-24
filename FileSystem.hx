@@ -8,7 +8,7 @@ import js.lib.Error;
 #else
 import js.Error;
 #end
-
+//stolen off of hxnodejs
 @:dce
 @:coreApi
 class FileSystem {
