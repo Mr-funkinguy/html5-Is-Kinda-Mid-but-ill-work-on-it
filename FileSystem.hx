@@ -1,81 +1,47 @@
+/*
+ * Copyright (C)2005-2019 Haxe Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
 
+// This file is generated from mozilla\FileSystem.webidl. Do not edit!
+//this was stolen off of the haxe program
 package;
 
-import js.node.Fs;
-import js.node.Path;
-#if haxe4
-import js.lib.Error;
-#else
-import js.Error;
-#end
-//stolen off of hxnodejs
-@:dce
-@:coreApi
-class FileSystem {
-	public static function exists(path:String):Bool {
-		return try {
-			Fs.accessSync(path);
-			true;
-		} catch (_:Dynamic) false;
-	}
+/**
+	The File and Directory Entries API interface `FileSystem` is used to represent a file system. These objects can be obtained from the `filesystem` property on any file system entry. Some browsers offer additional APIs to create and manage file systems, such as Chrome's `requestFileSystem()` method.
 
-	public static inline function rename(path:String, newPath:String):Void {
-		Fs.renameSync(path, newPath);
-	}
+	Documentation [FileSystem](https://developer.mozilla.org/en-US/docs/Web/API/FileSystem) by [Mozilla Contributors](https://developer.mozilla.org/en-US/docs/Web/API/FileSystem$history), licensed under [CC-BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/).
 
-	public static inline function stat(path:String):sys.FileStat {
-		return cast Fs.statSync(path);
-	}
-
-	public static inline function fullPath(relPath:String):String {
-		return try Fs.realpathSync(relPath) catch (e:Dynamic) null;
-	}
-
-	public static inline function absolutePath(relPath:String):String {
-		return js.node.Path.resolve(relPath);
-	}
-
-	public static function isDirectory(path:String):Bool {
-		return try Fs.statSync(path).isDirectory() catch (e:Dynamic) false;
-	}
-
-	public static function createDirectory(path:String):Void {
-		try {
-			Fs.mkdirSync(path);
-		} catch (e:Dynamic) {
-			if (e.code == "ENOENT") {
-				// parent doesn't exist - create parent and then this dir
-				createDirectory(Path.dirname(path));
-				Fs.mkdirSync(path);
-			} else {
-				// some other error - check if path is a dir, rethrow the error if not
-				// (the `(e : Error)` cast is here to avoid HaxeError wrapping, though we need to investigate this in Haxe itself)
-				var stat = try Fs.statSync(path) catch (_:Dynamic) throw(e : Error);
-				if (!stat.isDirectory())
-					throw(e : Error);
-			}
-		}
-	}
-
-	public static inline function deleteFile(path:String):Void {
-		Fs.unlinkSync(path);
-	}
-
-	public static inline function deleteDirectory(path:String):Void {
-		if (exists(path)) {
-			for (file in readDirectory(path)) {
-				var curPath = path + "/" + file;
-				if (isDirectory(curPath)) {
-					deleteDirectory(curPath);
-				} else {
-					deleteFile(curPath);
-				}
-			}
-			js.node.Fs.rmdirSync(path);
-		}
-	}
-
-	public static inline function readDirectory(path:String):Array<String> {
-		return Fs.readdirSync(path);
-	}
+	@see <https://developer.mozilla.org/en-US/docs/Web/API/FileSystem>
+**/
+@:native("FileSystem")
+extern class FileSystem {
+	
+	/**
+		A `USVString` representing the file system's name. This name is unique among the entire list of exposed file systems.
+	**/
+	var name(default,null) : String;
+	
+	/**
+		A `FileSystemDirectoryEntry` object which represents the file system's root directory. Through this object, you can gain access to all files and directories in the file system.
+	**/
+	var root(default,null) : FileSystemDirectoryEntry;
+	
 }
