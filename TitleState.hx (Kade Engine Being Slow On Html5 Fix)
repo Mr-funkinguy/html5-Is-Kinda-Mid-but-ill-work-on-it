@@ -1,0 +1,9 @@
+Hi Thatblockboi Here Again Commiting To Jonnycats Github Bc Yall Deserve To Know How To Fix This Shit
+Anyway. Heres How To Fix Kade Engine Being Slow On Html5 Need A Example? Go Here =  https://drive.google.com/file/d/1xviJ7E_SEdn2_1kOUOiGku_6Fps8blM_/view?usp=sharing
+Anyway First Go To TitleState.hx And Find The
+    "Highscore.load();"
+Paste This Code Under It :    
+		FlxG.fixedTimestep = false;
+		FlxGraphic.defaultPersist = true;
+And It Should Be Fixed (:
+(PS i dont give a a f**k If you use this jonnycat)
